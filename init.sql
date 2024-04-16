@@ -37,3 +37,15 @@ CREATE TABLE IF NOT EXISTS ssh_keys(
     FOREIGN KEY (user_id) REFERENCES users(id),
     unique (user_id, filename)
 );
+
+CREATE TABLE IF NOT EXISTS ssh_known_hosts(
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL,
+    host VARCHAR(255) NOT NULL,
+    key_type VARCHAR(255) NOT NULL,
+    key_value BYTEA NOT NULL,
+    comment VARCHAR(255),
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    unique (user_id, host, key_type, key_value)
+);
